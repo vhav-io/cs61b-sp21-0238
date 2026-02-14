@@ -155,6 +155,16 @@ public class Model extends Observable {
      */
     public static boolean maxTileExists(Board b) {
         // TODO: Fill in this function.
+        for(int col = 0; col<b.size(); col+=1){
+            for(int row = 0; row<b.size(); row+=1){
+                if(b.tile(col,row) == null) {
+                    continue;
+                } else if(b.tile(col,row).value()==2048){
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 
@@ -166,7 +176,27 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
-        return false;
+        if (emptySpaceExists(b)){
+            return true;
+        }
+        boolean sameAdjcentTile = false;
+        for(int col = 0; col<b.size(); col+=1){
+            for(int row =0; row<b.size(); row+=1){
+                if(!( row == b.size()-1)) {
+                    if (b.tile(col, row).value() == b.tile(col, row + 1).value()) {
+                        sameAdjcentTile = true;
+                        break;
+                    }
+                }
+                if(!(col == b.size()-1)) {
+                    if (b.tile(col, row).value() == b.tile(col + 1, row).value()) {
+                        sameAdjcentTile = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return sameAdjcentTile;
     }
 
 
