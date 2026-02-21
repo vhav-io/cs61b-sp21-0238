@@ -39,6 +39,18 @@ public class SLList<Item> {
 	public Item getFirst() {
 		return sentinel.next.item;
 	}
+	public Item get(int j){
+		int i = 0;
+		IntNode p = sentinel.next;
+		while(i <j && p != null){
+			p = p.next;
+			i+=1;
+		}
+		if(p.next == null){
+			return null;
+		}
+		return p.item;
+	}
 
 	/** Adds x to the end of the list. */
 	public void addLast(Item x) {
