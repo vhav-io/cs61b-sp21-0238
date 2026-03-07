@@ -2,7 +2,7 @@ package deque;
 
 import java.util.Iterator;
 
-public class LinkedListDeque<generic>{
+public class LinkedListDeque<generic> implements Deque<generic> {
     public intNode sentinal;
     public int size = 0;
 

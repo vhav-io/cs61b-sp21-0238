@@ -1,18 +1,19 @@
 package deque;
 
-import java.util.Iterator;
+import java.util.Comparator;
 
-public class ArrayDeque<generic> implements Deque<generic>{
+public class MaxArrayDeque <generic>{
     public int size = 0;
-    public generic[] deque;
     public int nextFirst;
     public int nextLast;
-    public ArrayDeque() {
+    public generic deque[];
+    private Comparator<generic> defaultComparator;
+    public MaxArrayDeque(Comparator<generic> c){
         deque = (generic[]) new Object[8];
-        nextFirst = 3;
-        nextLast = 4;
+        nextFirst = 0;
+        nextLast = 1;
+        defaultComparator = c;
     }
-
     public void addFirst(generic item){
         size += 1;
         deque[nextFirst] = item;
@@ -63,7 +64,7 @@ public class ArrayDeque<generic> implements Deque<generic>{
             return true;
         }
 
-    return false;
+        return false;
     }
     public void printDeque(){
         for(int i = 0; i < size; i++){
@@ -78,35 +79,18 @@ public class ArrayDeque<generic> implements Deque<generic>{
         return deque[i];
     }
 
-    public boolean equals(Object o){
-        if(o instanceof ArrayDeque){
-            ArrayDeque<generic> a = (ArrayDeque<generic>) o;
-            if(a.size() != size){return false;}
-            for(int i = 0; i < size; i++){
-                if(!a.get(i).equals(this.get(i))){return false;}
+    public generic max(){
+        return max(defaultComparator);
+    }
+    public generic max(Comparator<generic> c){
+        if(isEmpty()){return null;}
+        generic maxItem = get(0);
+        for(int i = 1; i < size; i++){
+            int result = c.compare(get(i), maxItem);
+            if(result > 0){
+                maxItem = get(i);
             }
-            return true;
         }
-        return false;
-    }
-
-    private class ArrayIterator implements Iterator<generic>{
-        public int wizPos;
-        public ArrayIterator(){
-            wizPos = 0;
-        }
-        public boolean hasNext(){
-            return wizPos < size;
-        }
-        public generic next(){
-            generic item = get(wizPos);
-            wizPos += 1;
-            return item;
-
-        }
-    }
-
-    public Iterator<generic> iterator(){
-        return new ArrayIterator();
+        return maxItem;
     }
 }
