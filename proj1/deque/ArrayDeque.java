@@ -14,6 +14,9 @@ public class ArrayDeque<generic> implements Deque<generic>{
     }
 
     public void addFirst(generic item){
+        if (size == deque.length) {
+            resize(size * 2);
+        }
         size += 1;
         deque[nextFirst] = item;
         if(nextFirst == 0){
@@ -22,6 +25,9 @@ public class ArrayDeque<generic> implements Deque<generic>{
 
     }
     public void addLast(generic item){
+        if(size == deque.length){
+            resize(size * 2);
+        }
         size += 1;
         deque[nextLast] = item;
         if(nextLast == deque.length - 1){
@@ -32,6 +38,9 @@ public class ArrayDeque<generic> implements Deque<generic>{
     public generic removeFirst(){
         if(isEmpty()){
             return null;
+        }
+        if (deque.length >= 16 && (size - 1) < deque.length / 4) {
+            resize(deque.length / 2); // Cut the total array capacity in half!
         }
         if(nextFirst == deque.length-1){
             nextFirst = -1;
@@ -45,6 +54,9 @@ public class ArrayDeque<generic> implements Deque<generic>{
     public generic removeLast(){
         if(isEmpty()){
             return null;
+        }
+        if (deque.length >= 16 && (size - 1) < deque.length / 4) {
+            resize(deque.length / 2); // Cut the total array capacity in half!
         }
         if(nextLast == 0){
             nextLast = deque.length;
@@ -108,5 +120,15 @@ public class ArrayDeque<generic> implements Deque<generic>{
 
     public Iterator<generic> iterator(){
         return new ArrayIterator();
+    }
+
+    private void resize(int newSize){
+        generic[] newDeque = (generic[]) new Object[newSize];
+        for(int i = 0; i < size; i++){
+            newDeque[i] = this.get(i);
+        }
+        deque = newDeque;
+        nextFirst = newSize - 1;
+        nextLast = size;
     }
 }

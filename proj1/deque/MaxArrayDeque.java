@@ -86,9 +86,9 @@ public class MaxArrayDeque <generic>{
         if(isEmpty()){return null;}
         generic maxItem = get(0);
         for(int i = 1; i < size; i++){
-            int result = c.compare(get(i), maxItem);
+            int result = c.compare(this.get(i), maxItem);
             if(result > 0){
-                maxItem = get(i);
+                maxItem = this.get(i);
             }
         }
         return maxItem;
